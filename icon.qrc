@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon.jpg</file>
+        <file>icon1.jpg</file>
+        <file>icon1.png</file>
+        <file>snimok_ekrana_2014-06-08_v_11.11.55_1402211543.png</file>
+    </qresource>
+</RCC>
