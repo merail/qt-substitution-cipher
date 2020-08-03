@@ -18,9 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         codesOfSymbols.append(i);
     }
-
-    generationConstant1 = 3;
-    generationConstant2 = 23;
 }
 
 MainWindow::~MainWindow()
@@ -149,6 +146,10 @@ void MainWindow::on_saveText_clicked()
 void MainWindow::on_generateSubstitutuionTable_clicked()
 {
     ui->keyTable->clear();
+
+    qsrand(qrand());
+    generationConstant1 = qrand();
+    generationConstant2 = qrand();
 
     for (int i = 0;i < codesOfSymbols.size();i++)
     {
