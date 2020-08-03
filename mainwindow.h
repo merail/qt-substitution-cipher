@@ -49,15 +49,20 @@ private:
 
     int generationConstant1;
     int generationConstant2;
+    string symbol;
+    string encryptedSymbol;
+    int codeOfSymbol;
+    int codeOfEncryptedSymbol;
 
-    string symbol, encryptedSymbol, letters;
-    int codeOfSymbol, codeOfEncryptedSymbol;
+    string letters;
 
     string text, encrypted_text;
     QString substitutionTable, qText, qEncrypted_text, qExtraLetters;
 
     QString fileName;
-    QFile fileOfTable, fileOfText, fileOfNewText;
+    QFile tableFile;
+    QFile textFile;
+    QFile codedTextFile;
 
     QMessageBox ermsg;
 };

@@ -127,7 +127,7 @@
       <string>Сохранить в файл</string>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="keyTable">
+    <widget class="QPlainTextEdit" name="substitutionTable">
      <property name="geometry">
       <rect>
        <x>53</x>
