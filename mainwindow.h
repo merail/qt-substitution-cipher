@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <iostream>
 #include <QMessageBox>
+#include <QList>
 
 using namespace std;
 
@@ -44,13 +45,16 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    int amountOfSymbols = 65;
+    QList<int> codesOfSymbols;
+
+    int generationConstant1;
+    int generationConstant2;
 
     string symbol, encryptedSymbol, letters;
-    int codeOfSymbol, codeOfEncryptedSymbol, a, c, m;
+    int codeOfSymbol, codeOfEncryptedSymbol;
 
     string text, encrypted_text;
-    QString qLetters, qText, qEncrypted_text, qExtraLetters;
+    QString substitutionTable, qText, qEncrypted_text, qExtraLetters;
 
     QString fileName;
     QFile fileOfTable, fileOfText, fileOfNewText;

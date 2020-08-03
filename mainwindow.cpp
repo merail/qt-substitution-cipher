@@ -10,11 +10,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowIcon(QIcon(":/icon1.jpg"));
     setFixedSize(this->size());
-    codeOfSymbol=32;
-    codeOfEncryptedSymbol=-72;
-    qExtraLetters=" \n";
-    a=3;
-    c=23;
+
+    codesOfSymbols.append(32);
+    codesOfSymbols.append(-88);
+    codesOfSymbols.append(-72);
+    for(int i = -1;i > -65;i--)
+    {
+        codesOfSymbols.append(i);
+    }
+
+    generationConstant1 = 3;
+    generationConstant2 = 23;
 }
 
 MainWindow::~MainWindow()
@@ -26,7 +32,7 @@ void MainWindow::on_codeText_clicked()
 {
     if(qText=="")
         qText=ui->text->document()->toPlainText();
-    if(qLetters=="")
+    if(substitutionTable=="")
     {
         ermsg.setText("Не создана таблица!");
         ermsg.exec();
@@ -42,7 +48,7 @@ void MainWindow::on_codeText_clicked()
         qEncrypted_text="";
         unsigned int i=0;
         text=qText.toLocal8Bit().constData();
-        letters=qLetters.toLocal8Bit().constData();
+        letters=substitutionTable.toLocal8Bit().constData();
         while (i < text.size())
         {
             symbol = text[i];
@@ -67,7 +73,7 @@ void MainWindow::on_decodeText_clicked()
 {
     if(qEncrypted_text=="")
         qEncrypted_text=ui->text->document()->toPlainText();
-    if(qLetters=="")
+    if(substitutionTable=="")
     {
         ermsg.setText("Не создана таблица!");
         ermsg.exec();
@@ -82,7 +88,7 @@ void MainWindow::on_decodeText_clicked()
         ui->text->document()->clear();
         qText="";
         encrypted_text=qEncrypted_text.toLocal8Bit().constData();
-        letters=qLetters.toLocal8Bit().constData();
+        letters=substitutionTable.toLocal8Bit().constData();
         unsigned int i=0;
         while (i < encrypted_text.size())
         {
@@ -144,30 +150,17 @@ void MainWindow::on_generateSubstitutuionTable_clicked()
 {
     ui->keyTable->clear();
 
-    for (int i = amountOfSymbols;i > 0;i--)
-        {
-            encryptedSymbol = codeOfEncryptedSymbol;
-            symbol = codeOfSymbol;
-            if(i>14)
-                qLetters = qLetters + QString::fromLocal8Bit(symbol.c_str())
-                       + "=" + QString::fromLocal8Bit(encryptedSymbol.c_str())+"\n";
-            else if(i==14)
-                qLetters=qLetters + QString::fromLocal8Bit(symbol.c_str())
-                        + "=";
-            else
-                qExtraLetters = qExtraLetters + QString::fromLocal8Bit(symbol.c_str())
-                                       + "=" + QString::fromLocal8Bit(encryptedSymbol.c_str());;
-            if(i>1 && i<14)
-            {
-                qExtraLetters = qExtraLetters + "\n";
-            }
+    for (int i = 0;i < codesOfSymbols.size();i++)
+    {
+        symbol = codesOfSymbols.at(i);
+        codeOfEncryptedSymbol = codesOfSymbols.at((generationConstant1 * i + generationConstant2) % codesOfSymbols.size());
+        encryptedSymbol = codeOfEncryptedSymbol;
 
-            codeOfSymbol = -i+1;
-            codeOfEncryptedSymbol = -(-a * codeOfSymbol + c) % amountOfSymbols;
-        }
-    qLetters=qLetters+qExtraLetters;
+        substitutionTable = substitutionTable + QString::fromLocal8Bit(symbol.c_str())
+                   + "=" + QString::fromLocal8Bit(encryptedSymbol.c_str())+"\n";
+    }
 
-    ui->keyTable->document()->setPlainText(qLetters);
+    ui->keyTable->document()->setPlainText(substitutionTable);
 }
 
 void MainWindow::on_saveSubstitutionTable_clicked()
@@ -181,7 +174,7 @@ void MainWindow::on_saveSubstitutionTable_clicked()
         if(fileOfTable.open(QIODevice::WriteOnly | QIODevice::Text))
         {
             QTextStream writeStream(&fileOfTable);
-            writeStream << qLetters;
+            writeStream << substitutionTable;
             fileOfTable.close();
         }
      }
@@ -198,8 +191,8 @@ void MainWindow::on_loadSubstitutionTable_clicked()
         if(fileOfTable.open(QIODevice::ReadOnly | QIODevice::Text))
         {
             QTextStream readStream(&fileOfText);
-            qLetters=readStream.readAll();
-            ui->text->document()->setPlainText(qLetters);
+            substitutionTable=readStream.readAll();
+            ui->text->document()->setPlainText(substitutionTable);
             fileOfTable.close();
         }
      }
