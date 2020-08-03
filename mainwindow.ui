@@ -101,7 +101,7 @@
     <property name="title">
      <string>Таблица</string>
     </property>
-    <widget class="QPushButton" name="gnrtTable">
+    <widget class="QPushButton" name="generateSubstitutuionTable">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -114,7 +114,7 @@
       <string>Сгенерировать таблицу</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="saveTable">
+    <widget class="QPushButton" name="saveSubstitutionTable">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -132,7 +132,7 @@
       <rect>
        <x>53</x>
        <y>110</y>
-       <width>54</width>
+       <width>100</width>
        <height>291</height>
       </rect>
      </property>
@@ -146,7 +146,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="loadKeys">
+    <widget class="QPushButton" name="loadSubstitutionTable">
      <property name="geometry">
       <rect>
        <x>10</x>

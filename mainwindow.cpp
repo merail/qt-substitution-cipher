@@ -24,69 +24,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_gnrtTable_clicked()
-{
-    ui->keyTable->clear();
-    for (int i = 65;i>0;i--)
-        {
-            encrypted_letter = numberOfEncryptedLetter;
-            letter = numberOfLetter;
-            if(i>14)
-                qLetters = qLetters + QString::fromLocal8Bit(letter.c_str())
-                       + "=" + QString::fromLocal8Bit(encrypted_letter.c_str())+"\n";
-            else if(i==14)
-                qLetters=qLetters + QString::fromLocal8Bit(letter.c_str())
-                        + "=";
-            else
-                qExtraLetters = qExtraLetters + QString::fromLocal8Bit(letter.c_str())
-                                       + "=" + QString::fromLocal8Bit(encrypted_letter.c_str());;
-            if(i>1 && i<14)
-            {
-                qExtraLetters = qExtraLetters + "\n";
-            }
-
-            numberOfLetter = -i+1;
-            numberOfEncryptedLetter = -(-a*numberOfLetter + c)%m;
-        }
-    qLetters=qLetters+qExtraLetters;
-    ui->keyTable->document()->setPlainText(qLetters);
-}
-
-void MainWindow::on_saveTable_clicked()
-{
-    fileName =QFileDialog::getSaveFileName( this, tr("Сохранить документ"),
-                                  QDir::currentPath(), tr("Текстовые документы (*.txt)"),
-                                  0, QFileDialog::DontUseNativeDialog );
-     if (fileName !="")
-     {
-        fileOfTable.setFileName(fileName+".txt");
-        if(fileOfTable.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            QTextStream writeStream(&fileOfTable);
-            writeStream << qLetters;
-            fileOfTable.close();
-        }
-     }
-}
-
-void MainWindow::on_loadText_clicked()
-{
-    fileName =QFileDialog::getOpenFileName( this, tr("Открыть документ"),
-                                  QDir::currentPath(), tr("Текстовые документы (*.txt)"),
-                                  0, QFileDialog::DontUseNativeDialog );
-     if (fileName !="")
-     {
-        fileOfText.setFileName(fileName);
-        if(fileOfText.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QTextStream readStream(&fileOfText);
-            qText=readStream.readAll();
-            ui->text->document()->setPlainText(qText);
-            fileOfText.close();
-        }
-     }
-}
-
 void MainWindow::on_codeText_clicked()
 {
     if(qText=="")
@@ -170,6 +107,24 @@ void MainWindow::on_decodeText_clicked()
     }
 }
 
+void MainWindow::on_loadText_clicked()
+{
+    fileName =QFileDialog::getOpenFileName( this, tr("Открыть документ"),
+                                  QDir::currentPath(), tr("Текстовые документы (*.txt)"),
+                                  0, QFileDialog::DontUseNativeDialog );
+     if (fileName !="")
+     {
+        fileOfText.setFileName(fileName);
+        if(fileOfText.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QTextStream readStream(&fileOfText);
+            qText=readStream.readAll();
+            ui->text->document()->setPlainText(qText);
+            fileOfText.close();
+        }
+     }
+}
+
 void MainWindow::on_saveText_clicked()
 {
     fileName =QFileDialog::getSaveFileName( this, tr("Сохранить документ"),
@@ -187,11 +142,56 @@ void MainWindow::on_saveText_clicked()
      }
 }
 
-void MainWindow::on_loadKeys_clicked()
+void MainWindow::on_generateSubstitutuionTable_clicked()
 {
-    fileName =QFileDialog::getOpenFileName( this, tr("Открыть документ"),
+    ui->keyTable->clear();
+    for (int i = amountOfSymbols;i>0;i--)
+        {
+            encrypted_letter = numberOfEncryptedLetter;
+            letter = numberOfLetter;
+            if(i>14)
+                qLetters = qLetters + QString::fromLocal8Bit(letter.c_str())
+                       + "=" + QString::fromLocal8Bit(encrypted_letter.c_str())+"\n";
+            else if(i==14)
+                qLetters=qLetters + QString::fromLocal8Bit(letter.c_str())
+                        + "=";
+            else
+                qExtraLetters = qExtraLetters + QString::fromLocal8Bit(letter.c_str())
+                                       + "=" + QString::fromLocal8Bit(encrypted_letter.c_str());;
+            if(i>1 && i<14)
+            {
+                qExtraLetters = qExtraLetters + "\n";
+            }
+
+            numberOfLetter = -i+1;
+            numberOfEncryptedLetter = -(-a * numberOfLetter + c) % amountOfSymbols;
+        }
+    qLetters=qLetters+qExtraLetters;
+    ui->keyTable->document()->setPlainText(qLetters);
+}
+
+void MainWindow::on_saveSubstitutionTable_clicked()
+{
+    fileName =QFileDialog::getSaveFileName( this, tr("Сохранить документ"),
                                   QDir::currentPath(), tr("Текстовые документы (*.txt)"),
                                   0, QFileDialog::DontUseNativeDialog );
+     if (fileName !="")
+     {
+        fileOfTable.setFileName(fileName+".txt");
+        if(fileOfTable.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream writeStream(&fileOfTable);
+            writeStream << qLetters;
+            fileOfTable.close();
+        }
+     }
+}
+
+void MainWindow::on_loadSubstitutionTable_clicked()
+{
+    fileName =QFileDialog::getOpenFileName( this, tr("Открыть документ"),
+                                      QDir::currentPath(), tr("Текстовые документы (*.txt)"),
+                                      0, QFileDialog::DontUseNativeDialog );
      if (fileName !="")
      {
         fileOfTable.setFileName(fileName);

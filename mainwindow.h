@@ -27,10 +27,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_gnrtTable_clicked();
-
-    void on_saveTable_clicked();
-
     void on_loadText_clicked();
 
     void on_codeText_clicked();
@@ -39,10 +35,16 @@ private slots:
 
     void on_saveText_clicked();
 
-    void on_loadKeys_clicked();
+    void on_generateSubstitutuionTable_clicked();
+
+    void on_saveSubstitutionTable_clicked();
+
+    void on_loadSubstitutionTable_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    int amountOfSymbols = 65;
 
     string letter, encrypted_letter, letters;
     int numberOfLetter, numberOfEncryptedLetter, a, c, m;
