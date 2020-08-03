@@ -29,7 +29,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_generateSubstitutuionTable_clicked()
 {
     ui->substitutionTable->clear();
-    substitutionTable.clear();
+    qSubstitutionTable.clear();
 
     qsrand(qrand());
     generationConstant1 = qrand();
@@ -41,11 +41,11 @@ void MainWindow::on_generateSubstitutuionTable_clicked()
         codeOfEncryptedSymbol = codesOfSymbols.at((generationConstant1 * i + generationConstant2) % codesOfSymbols.size());
         encryptedSymbol = codeOfEncryptedSymbol;
 
-        substitutionTable = substitutionTable + QString::fromLocal8Bit(symbol.c_str())
+        qSubstitutionTable = qSubstitutionTable + QString::fromLocal8Bit(symbol.c_str())
                    + "=" + QString::fromLocal8Bit(encryptedSymbol.c_str()) + "\n";
     }
 
-    ui->substitutionTable->document()->setPlainText(substitutionTable);
+    ui->substitutionTable->document()->setPlainText(qSubstitutionTable);
 }
 
 void MainWindow::on_saveSubstitutionTable_clicked()
@@ -58,7 +58,7 @@ void MainWindow::on_saveSubstitutionTable_clicked()
     if(file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream writeStream(&file);
-        writeStream << substitutionTable;
+        writeStream << qSubstitutionTable;
         file.close();
     }
 }
@@ -73,8 +73,8 @@ void MainWindow::on_loadSubstitutionTable_clicked()
     if(file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream readStream(&file);
-        substitutionTable = readStream.readAll();
-        ui->text->document()->setPlainText(substitutionTable);
+        qSubstitutionTable = readStream.readAll();
+        ui->text->document()->setPlainText(qSubstitutionTable);
         file.close();
     }
 }
@@ -83,7 +83,7 @@ void MainWindow::on_codeText_clicked()
 {
     qText = ui->text->document()->toPlainText();
 
-    if(substitutionTable.isEmpty())
+    if(qSubstitutionTable.isEmpty())
     {
         errorMessageBox.setText("Не создана таблица!");
         errorMessageBox.exec();
@@ -100,7 +100,7 @@ void MainWindow::on_codeText_clicked()
 
         unsigned int i = 0;
         text = qText.toLocal8Bit().constData();
-        letters=substitutionTable.toLocal8Bit().constData();
+        letters=qSubstitutionTable.toLocal8Bit().constData();
         while (i < text.size())
         {
             symbol = text[i];
@@ -126,7 +126,7 @@ void MainWindow::on_decodeText_clicked()
 {
     if(qEncryptedText=="")
         qEncryptedText=ui->text->document()->toPlainText();
-    if(substitutionTable=="")
+    if(qSubstitutionTable=="")
     {
         errorMessageBox.setText("Не создана таблица!");
         errorMessageBox.exec();
@@ -141,7 +141,7 @@ void MainWindow::on_decodeText_clicked()
         ui->text->document()->clear();
         qText="";
         encryptedText=qEncryptedText.toLocal8Bit().constData();
-        letters=substitutionTable.toLocal8Bit().constData();
+        letters=qSubstitutionTable.toLocal8Bit().constData();
         unsigned int i=0;
         while (i < encryptedText.size())
         {
