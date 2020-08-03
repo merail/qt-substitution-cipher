@@ -29,7 +29,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_generateSubstitutuionTable_clicked()
 {
     ui->substitutionTable->clear();
-    substitutionTable.clear();
+    qSubstitutionTable.clear();
 
     qsrand(qrand());
     generationConstant1 = qrand();
@@ -41,11 +41,11 @@ void MainWindow::on_generateSubstitutuionTable_clicked()
         codeOfEncryptedSymbol = codesOfSymbols.at((generationConstant1 * i + generationConstant2) % codesOfSymbols.size());
         encryptedSymbol = codeOfEncryptedSymbol;
 
-        substitutionTable = substitutionTable + QString::fromLocal8Bit(symbol.c_str())
+        qSubstitutionTable = qSubstitutionTable + QString::fromLocal8Bit(symbol.c_str())
                    + "=" + QString::fromLocal8Bit(encryptedSymbol.c_str()) + "\n";
     }
 
-    ui->substitutionTable->document()->setPlainText(substitutionTable);
+    ui->substitutionTable->document()->setPlainText(qSubstitutionTable);
 }
 
 void MainWindow::on_saveSubstitutionTable_clicked()
@@ -58,7 +58,7 @@ void MainWindow::on_saveSubstitutionTable_clicked()
     if(file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream writeStream(&file);
-        writeStream << substitutionTable;
+        writeStream << qSubstitutionTable;
         file.close();
     }
 }
@@ -73,8 +73,24 @@ void MainWindow::on_loadSubstitutionTable_clicked()
     if(file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream readStream(&file);
-        substitutionTable = readStream.readAll();
-        ui->text->document()->setPlainText(substitutionTable);
+        qSubstitutionTable = readStream.readAll();
+        ui->text->document()->setPlainText(qSubstitutionTable);
+        file.close();
+    }
+}
+
+void MainWindow::on_loadText_clicked()
+{
+    fileName = QFileDialog::getOpenFileName( this, tr("Открыть документ"),
+                                  QDir::currentPath(), tr("Текстовые документы (*.txt)"),
+                                  0, QFileDialog::DontUseNativeDialog );
+
+    file.setFileName(fileName);
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream readStream(&file);
+        qText = readStream.readAll();
+        ui->text->document()->setPlainText(qText);
         file.close();
     }
 }
@@ -83,7 +99,7 @@ void MainWindow::on_codeText_clicked()
 {
     qText = ui->text->document()->toPlainText();
 
-    if(substitutionTable.isEmpty())
+    if(qSubstitutionTable.isEmpty())
     {
         errorMessageBox.setText("Не создана таблица!");
         errorMessageBox.exec();
@@ -100,38 +116,37 @@ void MainWindow::on_codeText_clicked()
 
         unsigned int i = 0;
         text = qText.toLocal8Bit().constData();
-        letters=substitutionTable.toLocal8Bit().constData();
+        qText.clear();
+        substitutionTable=qSubstitutionTable.toLocal8Bit().constData();
         while (i < text.size())
         {
             symbol = text[i];
-            unsigned int j=0;
-            while (j<letters.size())
+            unsigned int j = 0;
+            while (j < substitutionTable.size())
             {
-                if (symbol[0] == letters[j])
+                if (symbol[0] == substitutionTable[j])
                     break;
-                j=j+4;
+                j = j + 4;
             }
-            encryptedSymbol = letters[j+2];
-            qEncryptedText =qEncryptedText + QString::fromLocal8Bit(encryptedSymbol.c_str());
+            encryptedSymbol = substitutionTable[j+2];
+            qEncryptedText = qEncryptedText + QString::fromLocal8Bit(encryptedSymbol.c_str());
             i++;
         }
 
         ui->text->document()->setPlainText(qEncryptedText);
-        qText="";
-        qEncryptedText="";
     }
 }
 
 void MainWindow::on_decodeText_clicked()
 {
-    if(qEncryptedText=="")
-        qEncryptedText=ui->text->document()->toPlainText();
-    if(substitutionTable=="")
+    qEncryptedText = ui->text->document()->toPlainText();
+
+    if(qSubstitutionTable.isEmpty())
     {
         errorMessageBox.setText("Не создана таблица!");
         errorMessageBox.exec();
     }
-    else if(qEncryptedText=="")
+    else if(qEncryptedText.isEmpty())
     {
         errorMessageBox.setText("Отсутствует текст!");
         errorMessageBox.exec();
@@ -139,63 +154,42 @@ void MainWindow::on_decodeText_clicked()
     else
     {
         ui->text->document()->clear();
-        qText="";
-        encryptedText=qEncryptedText.toLocal8Bit().constData();
-        letters=substitutionTable.toLocal8Bit().constData();
-        unsigned int i=0;
+        qText.clear();
+
+        encryptedText = qEncryptedText.toLocal8Bit().constData();
+        qEncryptedText.clear();
+        substitutionTable = qSubstitutionTable.toLocal8Bit().constData();
+        unsigned int i = 0;
         while (i < encryptedText.size())
         {
-            encryptedSymbol=encryptedText[i];
-            unsigned int j=2;
-            while (j<letters.size())
+            encryptedSymbol = encryptedText[i];
+            unsigned int j = 2;
+            while (j < substitutionTable.size())
             {
-                if (encryptedSymbol[0] == letters[j])
+                if (encryptedSymbol[0] == substitutionTable[j])
                     break;
-                j=j+4;
+                j = j + 4;
 
             }
-            symbol = letters[j-2];
-            qText =qText + QString::fromLocal8Bit(symbol.c_str());
+            symbol = substitutionTable[j-2];
+            qText = qText + QString::fromLocal8Bit(symbol.c_str());
             i++;
         }
         ui->text->document()->setPlainText(qText);
-        qEncryptedText="";
-        qText="";
     }
-}
-
-void MainWindow::on_loadText_clicked()
-{
-    fileName =QFileDialog::getOpenFileName( this, tr("Открыть документ"),
-                                  QDir::currentPath(), tr("Текстовые документы (*.txt)"),
-                                  0, QFileDialog::DontUseNativeDialog );
-     if (fileName !="")
-     {
-        file.setFileName(fileName);
-        if(file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QTextStream readStream(&file);
-            qText=readStream.readAll();
-            ui->text->document()->setPlainText(qText);
-            file.close();
-        }
-     }
 }
 
 void MainWindow::on_saveText_clicked()
 {
-    fileName =QFileDialog::getSaveFileName( this, tr("Сохранить документ"),
+    fileName = QFileDialog::getSaveFileName( this, tr("Сохранить документ"),
                                   QDir::currentPath(), tr("Текстовые документы (*.txt)"),
                                   0, QFileDialog::DontUseNativeDialog );
-     if (fileName !="")
-     {
-        file.setFileName(fileName+".txt");
-        if(file.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            QTextStream writeStream(&file);
-            writeStream << qEncryptedText;
-            file.close();
-        }
-     }
 
+    file.setFileName(fileName+".txt");
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream writeStream(&file);
+        writeStream << qEncryptedText;
+        file.close();
+    }
 }

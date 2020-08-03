@@ -53,9 +53,8 @@ private:
     int codeOfEncryptedSymbol;
     string symbol;
     string encryptedSymbol;
-    QString substitutionTable;
-
-    string letters;
+    QString qSubstitutionTable;
+    string substitutionTable;
 
     string text;
     string encryptedText;
