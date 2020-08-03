@@ -46,8 +46,8 @@ private:
 
     int amountOfSymbols = 65;
 
-    string letter, encrypted_letter, letters;
-    int numberOfLetter, numberOfEncryptedLetter, a, c, m;
+    string symbol, encryptedSymbol, letters;
+    int codeOfSymbol, codeOfEncryptedSymbol, a, c, m;
 
     string text, encrypted_text;
     QString qLetters, qText, qEncrypted_text, qExtraLetters;

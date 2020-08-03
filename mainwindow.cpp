@@ -10,13 +10,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowIcon(QIcon(":/icon1.jpg"));
     setFixedSize(this->size());
-    letter=' ';
-    numberOfLetter=letter[0];
-    numberOfEncryptedLetter=-72;
+    codeOfSymbol=32;
+    codeOfEncryptedSymbol=-72;
     qExtraLetters=" \n";
     a=3;
     c=23;
-    m=65;
 }
 
 MainWindow::~MainWindow()
@@ -47,16 +45,16 @@ void MainWindow::on_codeText_clicked()
         letters=qLetters.toLocal8Bit().constData();
         while (i < text.size())
         {
-            letter = text[i];
+            symbol = text[i];
             unsigned int j=0;
             while (j<letters.size())
             {
-                if (letter[0] == letters[j])
+                if (symbol[0] == letters[j])
                     break;
                 j=j+4;
             }
-            encrypted_letter = letters[j+2];
-            qEncrypted_text =qEncrypted_text + QString::fromLocal8Bit(encrypted_letter.c_str());
+            encryptedSymbol = letters[j+2];
+            qEncrypted_text =qEncrypted_text + QString::fromLocal8Bit(encryptedSymbol.c_str());
             i++;
         }
         ui->text->document()->setPlainText(qEncrypted_text);
@@ -88,17 +86,17 @@ void MainWindow::on_decodeText_clicked()
         unsigned int i=0;
         while (i < encrypted_text.size())
         {
-            encrypted_letter=encrypted_text[i];
+            encryptedSymbol=encrypted_text[i];
             unsigned int j=2;
             while (j<letters.size())
             {
-                if (encrypted_letter[0] == letters[j])
+                if (encryptedSymbol[0] == letters[j])
                     break;
                 j=j+4;
 
             }
-            letter = letters[j-2];
-            qText =qText + QString::fromLocal8Bit(letter.c_str());
+            symbol = letters[j-2];
+            qText =qText + QString::fromLocal8Bit(symbol.c_str());
             i++;
         }
         ui->text->document()->setPlainText(qText);
@@ -145,28 +143,30 @@ void MainWindow::on_saveText_clicked()
 void MainWindow::on_generateSubstitutuionTable_clicked()
 {
     ui->keyTable->clear();
-    for (int i = amountOfSymbols;i>0;i--)
+
+    for (int i = amountOfSymbols;i > 0;i--)
         {
-            encrypted_letter = numberOfEncryptedLetter;
-            letter = numberOfLetter;
+            encryptedSymbol = codeOfEncryptedSymbol;
+            symbol = codeOfSymbol;
             if(i>14)
-                qLetters = qLetters + QString::fromLocal8Bit(letter.c_str())
-                       + "=" + QString::fromLocal8Bit(encrypted_letter.c_str())+"\n";
+                qLetters = qLetters + QString::fromLocal8Bit(symbol.c_str())
+                       + "=" + QString::fromLocal8Bit(encryptedSymbol.c_str())+"\n";
             else if(i==14)
-                qLetters=qLetters + QString::fromLocal8Bit(letter.c_str())
+                qLetters=qLetters + QString::fromLocal8Bit(symbol.c_str())
                         + "=";
             else
-                qExtraLetters = qExtraLetters + QString::fromLocal8Bit(letter.c_str())
-                                       + "=" + QString::fromLocal8Bit(encrypted_letter.c_str());;
+                qExtraLetters = qExtraLetters + QString::fromLocal8Bit(symbol.c_str())
+                                       + "=" + QString::fromLocal8Bit(encryptedSymbol.c_str());;
             if(i>1 && i<14)
             {
                 qExtraLetters = qExtraLetters + "\n";
             }
 
-            numberOfLetter = -i+1;
-            numberOfEncryptedLetter = -(-a * numberOfLetter + c) % amountOfSymbols;
+            codeOfSymbol = -i+1;
+            codeOfEncryptedSymbol = -(-a * codeOfSymbol + c) % amountOfSymbols;
         }
     qLetters=qLetters+qExtraLetters;
+
     ui->keyTable->document()->setPlainText(qLetters);
 }
 
