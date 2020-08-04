@@ -146,7 +146,7 @@
        <x>10</x>
        <y>125</y>
        <width>180</width>
-       <height>425</height>
+       <height>460</height>
       </rect>
      </property>
      <property name="layoutDirection">
@@ -214,19 +214,6 @@
        <width>85</width>
        <height>25</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="addPairButton">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>560</y>
-       <width>180</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Добавить пару</string>
      </property>
     </widget>
    </widget>

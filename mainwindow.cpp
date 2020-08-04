@@ -241,9 +241,3 @@ void MainWindow::on_saveText_clicked()
         file.close();
     }
 }
-
-void MainWindow::on_addPairButton_clicked()
-{
-    QStandardItem *pair = new QStandardItem();
-    model->setItem(model->rowCount(), pair);
-}
