@@ -12,6 +12,7 @@
 #include <iostream>
 #include <QMessageBox>
 #include <QList>
+#include <QStandardItemModel>
 
 using namespace std;
 
@@ -53,8 +54,14 @@ private:
     int codeOfEncryptedSymbol;
     string symbol;
     string encryptedSymbol;
+    QString qSymbol;
+    QString qEncryptedSymbol;
     QString qSubstitutionTable;
     string substitutionTable;
+    QStandardItemModel *model;
+    QModelIndex index;
+
+    bool substitutuinTableIsCreated = false;
 
     string text;
     string encryptedText;
