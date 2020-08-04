@@ -36,7 +36,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Загрузить текст</string>
+      <string>Загрузить</string>
      </property>
     </widget>
     <widget class="QPushButton" name="codeText">
@@ -111,7 +111,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Сгенерировать таблицу</string>
+      <string>Сгенерировать</string>
      </property>
     </widget>
     <widget class="QPushButton" name="saveSubstitutionTable">

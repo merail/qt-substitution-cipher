@@ -16,13 +16,15 @@ MainWindow::MainWindow(QWidget *parent) :
     model = new QStandardItemModel(67, 2);
     ui->substitutionTable->setModel(model);
 
-    codesOfSymbols.append(32);
-    codesOfSymbols.append(-88);
-    codesOfSymbols.append(-72);
-    for(int i = -1;i > -65;i--)
+    for(int i = -64;i < 0;i++)
     {
         codesOfSymbols.append(i);
+        if(i == -59)
+            codesOfSymbols.append(-88);
+        if(i == -27)
+            codesOfSymbols.append(-72);
     }
+    codesOfSymbols.append(32);
 }
 
 MainWindow::~MainWindow()
