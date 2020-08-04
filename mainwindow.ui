@@ -17,10 +17,10 @@
    <widget class="QGroupBox" name="textBox">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>10</y>
-      <width>670</width>
-      <height>655</height>
+      <x>10</x>
+      <y>235</y>
+      <width>880</width>
+      <height>430</height>
      </rect>
     </property>
     <property name="title">
@@ -31,7 +31,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>155</width>
+       <width>180</width>
        <height>25</height>
       </rect>
      </property>
@@ -42,9 +42,9 @@
     <widget class="QPushButton" name="codeText">
      <property name="geometry">
       <rect>
-       <x>175</x>
+       <x>200</x>
        <y>20</y>
-       <width>155</width>
+       <width>180</width>
        <height>25</height>
       </rect>
      </property>
@@ -55,9 +55,9 @@
     <widget class="QPushButton" name="decodeText">
      <property name="geometry">
       <rect>
-       <x>340</x>
+       <x>390</x>
        <y>20</y>
-       <width>155</width>
+       <width>180</width>
        <height>25</height>
       </rect>
      </property>
@@ -68,9 +68,9 @@
     <widget class="QPushButton" name="saveText">
      <property name="geometry">
       <rect>
-       <x>505</x>
+       <x>580</x>
        <y>20</y>
-       <width>155</width>
+       <width>180</width>
        <height>25</height>
       </rect>
      </property>
@@ -83,8 +83,8 @@
       <rect>
        <x>10</x>
        <y>55</y>
-       <width>650</width>
-       <height>590</height>
+       <width>860</width>
+       <height>365</height>
       </rect>
      </property>
     </widget>
@@ -94,8 +94,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>200</width>
-      <height>655</height>
+      <width>880</width>
+      <height>215</height>
      </rect>
     </property>
     <property name="title">
@@ -104,7 +104,7 @@
     <widget class="QPushButton" name="generateSubstitutuionTable">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>200</x>
        <y>20</y>
        <width>180</width>
        <height>25</height>
@@ -117,8 +117,8 @@
     <widget class="QPushButton" name="saveSubstitutionTable">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>55</y>
+       <x>390</x>
+       <y>20</y>
        <width>180</width>
        <height>25</height>
       </rect>
@@ -131,7 +131,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>20</y>
        <width>180</width>
        <height>25</height>
       </rect>
@@ -144,9 +144,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>125</y>
-       <width>180</width>
-       <height>460</height>
+       <y>115</y>
+       <width>860</width>
+       <height>90</height>
       </rect>
      </property>
      <property name="layoutDirection">
@@ -159,7 +159,7 @@
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
+      <enum>Qt::ScrollBarAlwaysOn</enum>
      </property>
      <property name="gridStyle">
       <enum>Qt::SolidLine</enum>
@@ -187,7 +187,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>595</y>
+       <y>55</y>
        <width>180</width>
        <height>15</height>
       </rect>
@@ -200,7 +200,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>620</y>
+       <y>80</y>
        <width>85</width>
        <height>25</height>
       </rect>
@@ -210,7 +210,7 @@
      <property name="geometry">
       <rect>
        <x>105</x>
-       <y>620</y>
+       <y>80</y>
        <width>85</width>
        <height>25</height>
       </rect>

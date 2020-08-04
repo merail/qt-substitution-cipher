@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(":/icon1.jpg"));
     setFixedSize(this->size());
 
-    model = new QStandardItemModel(67, 2);
+    model = new QStandardItemModel(2, 67);
     ui->substitutionTable->setModel(model);
 
     for(int i = -64;i < 0;i++)
@@ -58,9 +58,9 @@ void MainWindow::on_generateSubstitutuionTable_clicked()
         encryptedSymbol = codeOfEncryptedSymbol;
         qEncryptedSymbol = QString::fromLocal8Bit(encryptedSymbol.c_str());
 
-        index = model->index(i, 0, QModelIndex());
+        index = model->index(0, i, QModelIndex());
         model->setData(index, qSymbol);
-        index = model->index(i, 1, QModelIndex());
+        index = model->index(1, i, QModelIndex());
         model->setData(index, qEncryptedSymbol);
     }
 
@@ -78,9 +78,9 @@ void MainWindow::on_saveSubstitutionTable_clicked()
     {
         QTextStream writeStream(&file);
 
-        for (int i=0; i<67; ++i)
+        for (int i = 0;i < 2;i++)
         {
-            for (int j=0; j<2; j++)
+            for (int j = 0;j < 2;j++)
             {
                  writeStream << ui->substitutionTable->model()->index(i, j).data().toString();
             }
@@ -103,17 +103,17 @@ void MainWindow::on_loadSubstitutionTable_clicked()
         QTextStream readStream(&file);
 
         model->clear();
-        model->setRowCount(67);
-        model->setColumnCount(2);
+        model->setRowCount(2);
+        model->setColumnCount(67);
         unsigned int i = 0;
         while(!file.atEnd())
         {
             string str = file.readLine().toStdString();
             qSymbol = QString::fromLocal8Bit(str.c_str()).at(0);
             qEncryptedSymbol = QString::fromLocal8Bit(str.c_str()).at(1);
-            index = model->index(i, 0, QModelIndex());
+            index = model->index(0, i, QModelIndex());
             model->setData(index, qSymbol);
-            index = model->index(i, 1, QModelIndex());
+            index = model->index(1, 67, QModelIndex());
             model->setData(index, qEncryptedSymbol);
 
             i++;
@@ -167,11 +167,11 @@ void MainWindow::on_codeText_clicked()
         while (i < text.size())
         {
             symbol = text[i];
-            for(int j = 0;j < model->rowCount();j++)
+            for(int j = 0;j < model->columnCount();j++)
             {
-                if(symbol == ui->substitutionTable->model()->index(j, 0).data().toString().toLocal8Bit().constData())
+                if(symbol == ui->substitutionTable->model()->index(0, j).data().toString().toLocal8Bit().constData())
                 {
-                    encryptedSymbol = ui->substitutionTable->model()->index(j, 1).data().toString().toLocal8Bit().constData();
+                    encryptedSymbol = ui->substitutionTable->model()->index(1, j).data().toString().toLocal8Bit().constData();
                     break;
                 }
             }
@@ -210,11 +210,11 @@ void MainWindow::on_decodeText_clicked()
         while (i < encryptedText.size())
         {
             encryptedSymbol = encryptedText[i];
-            for(int j = 0;j < model->rowCount();j++)
+            for(int j = 0;j < model->columnCount();j++)
             {
-                if(encryptedSymbol == ui->substitutionTable->model()->index(j, 1).data().toString().toLocal8Bit().constData())
+                if(encryptedSymbol == ui->substitutionTable->model()->index(1, j).data().toString().toLocal8Bit().constData())
                 {
-                    symbol = ui->substitutionTable->model()->index(j, 0).data().toString().toLocal8Bit().constData();
+                    symbol = ui->substitutionTable->model()->index(0, j).data().toString().toLocal8Bit().constData();
                     break;
                 }
             }
