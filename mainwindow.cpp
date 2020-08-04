@@ -226,7 +226,7 @@ void MainWindow::on_saveText_clicked()
     if(file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream writeStream(&file);
-        writeStream << qEncryptedText;
+        writeStream << ui->text->toPlainText();
         file.close();
     }
 }
