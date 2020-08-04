@@ -118,7 +118,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
+       <y>55</y>
        <width>180</width>
        <height>25</height>
       </rect>
@@ -131,7 +131,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>80</y>
+       <y>90</y>
        <width>180</width>
        <height>25</height>
       </rect>
@@ -144,9 +144,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>110</y>
+       <y>125</y>
        <width>180</width>
-       <height>535</height>
+       <height>460</height>
       </rect>
      </property>
      <property name="lineWidth">
@@ -179,6 +179,39 @@
      <attribute name="verticalHeaderHighlightSections">
       <bool>false</bool>
      </attribute>
+    </widget>
+    <widget class="QLabel" name="constantsLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>595</y>
+       <width>180</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Константы генерации:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="constant1LineEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>620</y>
+       <width>85</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="constant2LineEdit">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>620</y>
+       <width>85</width>
+       <height>25</height>
+      </rect>
+     </property>
     </widget>
    </widget>
   </widget>

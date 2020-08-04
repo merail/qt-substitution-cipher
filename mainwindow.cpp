@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
             codesOfSymbols.append(-72);
     }
     codesOfSymbols.append(32);
+
+    ui->constant1LineEdit->setValidator(new QIntValidator(this));
+    ui->constant2LineEdit->setValidator(new QIntValidator(this));
 }
 
 MainWindow::~MainWindow()
@@ -38,8 +41,14 @@ void MainWindow::on_generateSubstitutuionTable_clicked()
     qSubstitutionTable.clear();
 
     qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
-    generationConstant1 = qrand();
-    generationConstant2 = qrand();
+    if(!ui->constant1LineEdit->text().isEmpty())
+        generationConstant1 = ui->constant1LineEdit->text().toInt();
+    else
+        generationConstant1 = qrand();
+    if(!ui->constant2LineEdit->text().isEmpty())
+        generationConstant2 = ui->constant2LineEdit->text().toInt();
+    else
+        generationConstant2 = qrand();
 
     for (int i = 0;i < codesOfSymbols.size();i++)
     {
