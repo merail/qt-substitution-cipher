@@ -43,6 +43,8 @@ private slots:
 
     void on_loadSubstitutionTable_clicked();
 
+    void on_addPairButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
