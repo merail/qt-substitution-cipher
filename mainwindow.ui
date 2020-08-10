@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>235</y>
+      <y>243</y>
       <width>880</width>
-      <height>430</height>
+      <height>422</height>
      </rect>
     </property>
     <property name="title">
@@ -84,7 +84,7 @@
        <x>10</x>
        <y>55</y>
        <width>860</width>
-       <height>365</height>
+       <height>357</height>
       </rect>
      </property>
     </widget>
@@ -95,7 +95,7 @@
       <x>10</x>
       <y>10</y>
       <width>880</width>
-      <height>215</height>
+      <height>223</height>
      </rect>
     </property>
     <property name="title">
@@ -146,7 +146,7 @@
        <x>10</x>
        <y>115</y>
        <width>860</width>
-       <height>90</height>
+       <height>98</height>
       </rect>
      </property>
      <property name="layoutDirection">
@@ -214,6 +214,35 @@
        <width>85</width>
        <height>25</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="englishAlphabetRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>82</y>
+       <width>50</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>en</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="russianAlphabetRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>82</y>
+       <width>50</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>rus</string>
      </property>
     </widget>
    </widget>

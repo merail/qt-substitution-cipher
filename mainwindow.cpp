@@ -10,24 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowIcon(QIcon(":/icon1.jpg"));
     setFixedSize(this->size());
-
-    model = new QStandardItemModel(2, 67);
-    ui->substitutionTable->setModel(model);
-
-    for(int i = -64;i < 0;i++)
-    {
-        codesOfSymbols.append(i);
-        if(i == -59)
-            codesOfSymbols.append(-88);
-        if(i == -27)
-            codesOfSymbols.append(-72);
-    }
-    codesOfSymbols.append(32);
 
     ui->constant1LineEdit->setValidator(new QIntValidator(this));
     ui->constant2LineEdit->setValidator(new QIntValidator(this));
+
+    setEnglishAlphabetTable();
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +23,43 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_loadSubstitutionTable_clicked()
+{
+    fileName = QFileDialog::getOpenFileName( this, tr("Открыть документ"),
+                                      QDir::currentPath(), tr("Текстовые документы (*.txt)"),
+                                      0, QFileDialog::DontUseNativeDialog );
+
+    file.setFileName(fileName);
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream readStream(&file);
+
+        codesOfSymbols.clear();
+        model->clear();
+        model->setRowCount(2);
+        unsigned int i = 0;
+        while(!file.atEnd())
+        {
+            string str = file.readLine().toStdString();
+            codesOfSymbols.append(int(str.at(0)));
+            qCharacter = QString::fromLocal8Bit(str.c_str()).at(0);
+            qEncryptedCharacter = QString::fromLocal8Bit(str.c_str()).at(1);
+
+            QStandardItem *pair = new QStandardItem();
+            model->setItem(0, i, pair);
+            index = model->index(0, i, QModelIndex());
+            model->setData(index, qCharacter);
+            index = model->index(1, i, QModelIndex());
+            model->setData(index, qEncryptedCharacter);
+
+            i++;
+        }
+
+        file.close();
+    }
+
+    substitutuinTableIsCreated = true;
+}
 
 void MainWindow::on_generateSubstitutuionTable_clicked()
 {
@@ -52,16 +77,12 @@ void MainWindow::on_generateSubstitutuionTable_clicked()
 
     for (int i = 0;i < codesOfSymbols.size();i++)
     {
-        symbol = codesOfSymbols.at(i);
-        qSymbol = QString::fromLocal8Bit(symbol.c_str());
-        codeOfEncryptedSymbol = codesOfSymbols.at((generationConstant1 * i + generationConstant2) % codesOfSymbols.size());
-        encryptedSymbol = codeOfEncryptedSymbol;
-        qEncryptedSymbol = QString::fromLocal8Bit(encryptedSymbol.c_str());
+        codeOfEncryptedCharacter = codesOfSymbols.at((generationConstant1 * i + generationConstant2) % codesOfSymbols.size());
+        encryptedCharacter = codeOfEncryptedCharacter;
+        qEncryptedCharacter = QString::fromLocal8Bit(encryptedCharacter.c_str());
 
-        index = model->index(0, i, QModelIndex());
-        model->setData(index, qSymbol);
         index = model->index(1, i, QModelIndex());
-        model->setData(index, qEncryptedSymbol);
+        model->setData(index, qEncryptedCharacter);
     }
 
     substitutuinTableIsCreated = true;
@@ -89,40 +110,6 @@ void MainWindow::on_saveSubstitutionTable_clicked()
 
         file.close();
     }
-}
-
-void MainWindow::on_loadSubstitutionTable_clicked()
-{
-    fileName = QFileDialog::getOpenFileName( this, tr("Открыть документ"),
-                                      QDir::currentPath(), tr("Текстовые документы (*.txt)"),
-                                      0, QFileDialog::DontUseNativeDialog );
-
-    file.setFileName(fileName);
-    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        QTextStream readStream(&file);
-
-        model->clear();
-        model->setRowCount(2);
-        model->setColumnCount(67);
-        unsigned int i = 0;
-        while(!file.atEnd())
-        {
-            string str = file.readLine().toStdString();
-            qSymbol = QString::fromLocal8Bit(str.c_str()).at(0);
-            qEncryptedSymbol = QString::fromLocal8Bit(str.c_str()).at(1);
-            index = model->index(0, i, QModelIndex());
-            model->setData(index, qSymbol);
-            index = model->index(1, 67, QModelIndex());
-            model->setData(index, qEncryptedSymbol);
-
-            i++;
-        }
-
-        file.close();
-    }
-
-    substitutuinTableIsCreated = true;
 }
 
 void MainWindow::on_loadText_clicked()
@@ -166,17 +153,17 @@ void MainWindow::on_codeText_clicked()
         substitutionTable = qSubstitutionTable.toLocal8Bit().constData();
         while (i < text.size())
         {
-            symbol = text[i];
+            character = text[i];
             for(int j = 0;j < model->columnCount();j++)
             {
-                if(symbol == ui->substitutionTable->model()->index(0, j).data().toString().toLocal8Bit().constData())
+                if(character == ui->substitutionTable->model()->index(0, j).data().toString().toLocal8Bit().constData())
                 {
-                    encryptedSymbol = ui->substitutionTable->model()->index(1, j).data().toString().toLocal8Bit().constData();
+                    encryptedCharacter = ui->substitutionTable->model()->index(1, j).data().toString().toLocal8Bit().constData();
                     break;
                 }
             }
 
-            qEncryptedText = qEncryptedText + QString::fromLocal8Bit(encryptedSymbol.c_str());
+            qEncryptedText = qEncryptedText + QString::fromLocal8Bit(encryptedCharacter.c_str());
             i++;
         }
 
@@ -209,17 +196,17 @@ void MainWindow::on_decodeText_clicked()
         unsigned int i = 0;
         while (i < encryptedText.size())
         {
-            encryptedSymbol = encryptedText[i];
+            encryptedCharacter = encryptedText[i];
             for(int j = 0;j < model->columnCount();j++)
             {
-                if(encryptedSymbol == ui->substitutionTable->model()->index(1, j).data().toString().toLocal8Bit().constData())
+                if(encryptedCharacter == ui->substitutionTable->model()->index(1, j).data().toString().toLocal8Bit().constData())
                 {
-                    symbol = ui->substitutionTable->model()->index(0, j).data().toString().toLocal8Bit().constData();
+                    character = ui->substitutionTable->model()->index(0, j).data().toString().toLocal8Bit().constData();
                     break;
                 }
             }
 
-            qText = qText + QString::fromLocal8Bit(symbol.c_str());
+            qText = qText + QString::fromLocal8Bit(character.c_str());
             i++;
         }
 
@@ -239,5 +226,65 @@ void MainWindow::on_saveText_clicked()
         QTextStream writeStream(&file);
         writeStream << ui->text->toPlainText();
         file.close();
+    }
+}
+
+void MainWindow::on_englishAlphabetRadioButton_clicked()
+{
+    setEnglishAlphabetTable();
+}
+
+void MainWindow::on_russianAlphabetRadioButton_clicked()
+{
+    codesOfSymbols.clear();
+
+    charactersCount = 67;
+
+    model = new QStandardItemModel(2, charactersCount);
+    ui->substitutionTable->setModel(model);
+
+    for(int i = -64;i < 0;i++)
+    {
+        codesOfSymbols.append(i);
+        if(i == -59)
+            codesOfSymbols.append(-88);
+        if(i == -27)
+            codesOfSymbols.append(-72);
+    }
+
+    for (int i = 0;i < codesOfSymbols.size();i++)
+    {
+        character = codesOfSymbols.at(i);
+        qCharacter = QString::fromLocal8Bit(character.c_str());
+
+        index = model->index(0, i, QModelIndex());
+        model->setData(index, qCharacter);
+    }
+}
+
+void MainWindow::setEnglishAlphabetTable()
+{
+    codesOfSymbols.clear();
+
+    charactersCount = 53;
+
+    model = new QStandardItemModel(2, charactersCount);
+    ui->substitutionTable->setModel(model);
+
+    for(int i = 65;i < 123;i++)
+    {
+        codesOfSymbols.append(i);
+        if(i == 90)
+            i = i + 6;
+    }
+    codesOfSymbols.append(32);
+
+    for (int i = 0;i < codesOfSymbols.size();i++)
+    {
+        character = codesOfSymbols.at(i);
+        qCharacter = QString::fromLocal8Bit(character.c_str());
+
+        index = model->index(0, i, QModelIndex());
+        model->setData(index, qCharacter);
     }
 }
