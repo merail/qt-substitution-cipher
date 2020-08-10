@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Текст</string>
+     <string>Text</string>
     </property>
     <widget class="QPushButton" name="loadText">
      <property name="geometry">
@@ -36,7 +36,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Загрузить</string>
+      <string>Load</string>
      </property>
     </widget>
     <widget class="QPushButton" name="codeText">
@@ -49,7 +49,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Зашифровать</string>
+      <string>Code</string>
      </property>
     </widget>
     <widget class="QPushButton" name="decodeText">
@@ -62,7 +62,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Дешифровать</string>
+      <string>Decode</string>
      </property>
     </widget>
     <widget class="QPushButton" name="saveText">
@@ -75,7 +75,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Сохранить в файл</string>
+      <string>Save</string>
      </property>
     </widget>
     <widget class="QPlainTextEdit" name="text">
@@ -99,7 +99,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Таблица</string>
+     <string>Substitution table</string>
     </property>
     <widget class="QPushButton" name="generateSubstitutuionTable">
      <property name="geometry">
@@ -111,7 +111,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Сгенерировать</string>
+      <string>Generate</string>
      </property>
     </widget>
     <widget class="QPushButton" name="saveSubstitutionTable">
@@ -124,7 +124,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Сохранить в файл</string>
+      <string>Save</string>
      </property>
     </widget>
     <widget class="QPushButton" name="loadSubstitutionTable">
@@ -137,7 +137,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Загрузить</string>
+      <string>Load</string>
      </property>
     </widget>
     <widget class="QTableView" name="substitutionTable">
@@ -193,7 +193,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Константы генерации:</string>
+      <string>Generation constants</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="constant1LineEdit">
